@@ -20,6 +20,7 @@ function PokemonList() {
   const [selectedGeneration, setSelectedGeneration] = useState('');
   const [loading, setLoading] = useState(true);
   const [filtering, setFiltering] = useState(false);
+  const [favorites, setFavorites] = useState([]);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [offset, setOffset] = useState(0);
@@ -38,6 +39,36 @@ function PokemonList() {
     if (!query) return list;
     return list.filter((pokemon) => pokemon.name.startsWith(query));
   };
+
+  const loadFavorites = () => {
+    try {
+      const stored = window.localStorage.getItem('pokemonFavorites');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveFavorites = (nextFavorites) => {
+    try {
+      window.localStorage.setItem('pokemonFavorites', JSON.stringify(nextFavorites));
+    } catch {
+      // ignore localStorage errors
+    }
+  };
+
+  const toggleFavorite = (pokemonName) => {
+    setFavorites((prevFavorites) => {
+      const isFavorite = prevFavorites.includes(pokemonName);
+      const nextFavorites = isFavorite
+        ? prevFavorites.filter((name) => name !== pokemonName)
+        : [pokemonName, ...prevFavorites];
+      saveFavorites(nextFavorites);
+      return nextFavorites;
+    });
+  };
+
+  const isFavorite = (pokemonName) => favorites.includes(pokemonName);
 
   const fetchPokemonList = async (newOffset = 0) => {
     try {
@@ -107,6 +138,7 @@ function PokemonList() {
   };
 
   useEffect(() => {
+    setFavorites(loadFavorites());
     fetchTypeAndGenerationOptions();
     fetchPokemonList(0);
   }, []);
@@ -182,7 +214,12 @@ function PokemonList() {
         <div className="pokemon-grid">
           {displayedList.map((pokemon) => (
             <div key={pokemon.name} onClick={() => setSelectedPokemon(pokemon.name)}>
-              <PokemonCard pokemon={pokemon} onClick={() => setSelectedPokemon(pokemon.name)} />
+              <PokemonCard
+                pokemon={pokemon}
+                onClick={() => setSelectedPokemon(pokemon.name)}
+                isFavorite={isFavorite(pokemon.name)}
+                onToggleFavorite={() => toggleFavorite(pokemon.name)}
+              />
             </div>
           ))}
         </div>
@@ -195,6 +232,33 @@ function PokemonList() {
           </button>
         )}
       </div>
+
+      <aside className="pokemon-favorites-panel">
+        <div className="pokemon-favorites-panel__header">
+          <h2>Favoritos</h2>
+          <p>{favorites.length} Pokémon guardados</p>
+        </div>
+
+        {favorites.length === 0 ? (
+          <div className="pokemon-favorites-panel__empty">
+            No hay favoritos aún. Usa la estrella para marcar uno.
+          </div>
+        ) : (
+          <div className="pokemon-favorites-list">
+            {favorites.map((name) => (
+              <button
+                key={name}
+                type="button"
+                className="pokemon-favorites-item"
+                onClick={() => setSelectedPokemon(name)}
+              >
+                <span>{name}</span>
+                <span className="pokemon-favorites-item__star">★</span>
+              </button>
+            ))}
+          </div>
+        )}
+      </aside>
 
       {selectedPokemon && (
         <PokemonDetail

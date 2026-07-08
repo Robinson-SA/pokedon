@@ -1,11 +1,23 @@
 import './PokemonCard.css';
 import { usePokemon } from '../../hooks/usePokemon';
 
-function PokemonCard({ pokemon, onClick }) {
+function PokemonCard({ pokemon, onClick, isFavorite, onToggleFavorite }) {
   const { pokemon: details, loading } = usePokemon(pokemon.name);
 
   return (
     <div className="pokemon-card" onClick={onClick}>
+      <button
+        type="button"
+        className={`pokemon-card__favorite-button ${isFavorite ? 'favorite-active' : ''}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggleFavorite();
+        }}
+        aria-label={isFavorite ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+      >
+        ★
+      </button>
+
       {loading ? (
         <div className="pokemon-card__placeholder">Cargando...</div>
       ) : (

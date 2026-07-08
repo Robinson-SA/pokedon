@@ -41,52 +41,17 @@ function PokemonList() {
     return list.filter((pokemon) => pokemon.name.startsWith(query));
   };
 
-  const loadBlocked = () => {
-    try {
-      const stored = window.localStorage.getItem('pokemonBlocked');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const saveBlocked = (nextBlocked) => {
-    try {
-      window.localStorage.setItem('pokemonBlocked', JSON.stringify(nextBlocked));
-    } catch {
-      // ignore localStorage errors
-    }
-  };
-
   const toggleBlocked = (pokemonName) => {
     setBlocked((prevBlocked) => {
       const isBlocked = prevBlocked.includes(pokemonName);
       const nextBlocked = isBlocked
         ? prevBlocked.filter((name) => name !== pokemonName)
         : [pokemonName, ...prevBlocked];
-      saveBlocked(nextBlocked);
       return nextBlocked;
     });
   };
 
   const isBlocked = (pokemonName) => blocked.includes(pokemonName);
-
-  const loadFavorites = () => {
-    try {
-      const stored = window.localStorage.getItem('pokemonFavorites');
-      return stored ? JSON.parse(stored) : [];
-    } catch {
-      return [];
-    }
-  };
-
-  const saveFavorites = (nextFavorites) => {
-    try {
-      window.localStorage.setItem('pokemonFavorites', JSON.stringify(nextFavorites));
-    } catch {
-      // ignore localStorage errors
-    }
-  };
 
   const toggleFavorite = (pokemonName) => {
     setFavorites((prevFavorites) => {
@@ -94,7 +59,6 @@ function PokemonList() {
       const nextFavorites = isFavorite
         ? prevFavorites.filter((name) => name !== pokemonName)
         : [pokemonName, ...prevFavorites];
-      saveFavorites(nextFavorites);
       return nextFavorites;
     });
   };
@@ -169,8 +133,6 @@ function PokemonList() {
   };
 
   useEffect(() => {
-    setFavorites(loadFavorites());
-    setBlocked(loadBlocked());
     fetchTypeAndGenerationOptions();
     fetchPokemonList(0);
   }, []);

@@ -111,6 +111,63 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.pokemon-blocked-panel {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(102, 126, 234, 0.18);
+}
+
+.pokemon-blocked-panel__header {
+  margin-bottom: 20px;
+}
+
+.pokemon-blocked-panel__header h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+}
+
+.pokemon-blocked-panel__header p {
+  margin: 0;
+  color: #555;
+}
+
+.pokemon-blocked-panel__empty {
+  background: #fff5f5;
+  color: #822727;
+  padding: 16px;
+  border-radius: 14px;
+  text-align: center;
+}
+
+.pokemon-blocked-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pokemon-blocked-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid #fed7d7;
+  border-radius: 16px;
+  padding: 12px 16px;
+  color: #333;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pokemon-blocked-item:hover {
+  transform: translateX(4px);
+  box-shadow: 0 16px 30px rgba(229, 62, 62, 0.12);
+}
+
+.pokemon-blocked-item__unlock {
+  color: #e53e3e;
+  font-size: 18px;
+}
+
 .pokemon-favorites-panel {
   background: rgba(255, 255, 255, 0.95);
   border-radius: 24px;

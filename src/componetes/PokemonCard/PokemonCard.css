@@ -30,6 +30,31 @@
   z-index: 2;
 }
 
+.pokemon-card__blocked-button {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(229, 62, 62, 0.45);
+  background: rgba(255, 255, 255, 0.9);
+  color: #e53e3e;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  z-index: 2;
+}
+
+.pokemon-card__blocked-button.blocked-active {
+  background: #e53e3e;
+  color: white;
+  border-color: #c53030;
+}
+
 .pokemon-card__favorite-button:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);

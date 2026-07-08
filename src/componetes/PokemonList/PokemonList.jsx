@@ -21,6 +21,7 @@ function PokemonList() {
   const [loading, setLoading] = useState(true);
   const [filtering, setFiltering] = useState(false);
   const [favorites, setFavorites] = useState([]);
+  const [blocked, setBlocked] = useState([]);
   const [error, setError] = useState(null);
   const [selectedPokemon, setSelectedPokemon] = useState(null);
   const [offset, setOffset] = useState(0);
@@ -39,6 +40,36 @@ function PokemonList() {
     if (!query) return list;
     return list.filter((pokemon) => pokemon.name.startsWith(query));
   };
+
+  const loadBlocked = () => {
+    try {
+      const stored = window.localStorage.getItem('pokemonBlocked');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveBlocked = (nextBlocked) => {
+    try {
+      window.localStorage.setItem('pokemonBlocked', JSON.stringify(nextBlocked));
+    } catch {
+      // ignore localStorage errors
+    }
+  };
+
+  const toggleBlocked = (pokemonName) => {
+    setBlocked((prevBlocked) => {
+      const isBlocked = prevBlocked.includes(pokemonName);
+      const nextBlocked = isBlocked
+        ? prevBlocked.filter((name) => name !== pokemonName)
+        : [pokemonName, ...prevBlocked];
+      saveBlocked(nextBlocked);
+      return nextBlocked;
+    });
+  };
+
+  const isBlocked = (pokemonName) => blocked.includes(pokemonName);
 
   const loadFavorites = () => {
     try {
@@ -76,7 +107,7 @@ function PokemonList() {
       const data = await getPokemonList(limit, newOffset);
       const updatedList = newOffset === 0 ? data.results : [...pokemonList, ...data.results];
       setPokemonList(updatedList);
-      setDisplayedList(applySearchFilter(updatedList));
+      setDisplayedList(applySearchFilter(updatedList).filter((pokemon) => !isBlocked(pokemon.name)));
       setHasMore(data.next !== null);
       setError(null);
     } catch (err) {
@@ -139,6 +170,7 @@ function PokemonList() {
 
   useEffect(() => {
     setFavorites(loadFavorites());
+    setBlocked(loadBlocked());
     fetchTypeAndGenerationOptions();
     fetchPokemonList(0);
   }, []);
@@ -147,9 +179,9 @@ function PokemonList() {
     if (selectedType || selectedGeneration) {
       fetchFilteredPokemon();
     } else {
-      setDisplayedList(applySearchFilter(pokemonList));
+      setDisplayedList(applySearchFilter(pokemonList).filter((pokemon) => !isBlocked(pokemon.name)));
     }
-  }, [searchTerm, selectedType, selectedGeneration, pokemonList]);
+  }, [searchTerm, selectedType, selectedGeneration, pokemonList, blocked]);
 
   const handleLoadMore = () => {
     const newOffset = offset + limit;
@@ -218,6 +250,8 @@ function PokemonList() {
                 pokemon={pokemon}
                 onClick={() => setSelectedPokemon(pokemon.name)}
                 isFavorite={isFavorite(pokemon.name)}
+                isBlocked={isBlocked(pokemon.name)}
+                onToggleBlocked={() => toggleBlocked(pokemon.name)}
                 onToggleFavorite={() => toggleFavorite(pokemon.name)}
               />
             </div>
@@ -258,6 +292,32 @@ function PokemonList() {
             ))}
           </div>
         )}
+        <div className="pokemon-blocked-panel">
+          <div className="pokemon-blocked-panel__header">
+            <h2>Bloqueados</h2>
+            <p>{blocked.length} Pokémon bloqueados</p>
+          </div>
+
+          {blocked.length === 0 ? (
+            <div className="pokemon-blocked-panel__empty">
+              Ningún pokémon bloqueado. Presiona el candado para bloquear uno.
+            </div>
+          ) : (
+            <div className="pokemon-blocked-list">
+              {blocked.map((name) => (
+                <button
+                  key={name}
+                  type="button"
+                  className="pokemon-blocked-item"
+                  onClick={() => toggleBlocked(name)}
+                >
+                  <span>{name}</span>
+                  <span className="pokemon-blocked-item__unlock">🔓</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
       </aside>
 
       {selectedPokemon && (

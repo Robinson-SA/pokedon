@@ -1,11 +1,22 @@
 import './PokemonCard.css';
 import { usePokemon } from '../../hooks/usePokemon';
 
-function PokemonCard({ pokemon, onClick, isFavorite, onToggleFavorite }) {
+function PokemonCard({ pokemon, onClick, isFavorite, onToggleFavorite, isBlocked, onToggleBlocked }) {
   const { pokemon: details, loading } = usePokemon(pokemon.name);
 
   return (
     <div className="pokemon-card" onClick={onClick}>
+      <button
+        type="button"
+        className={`pokemon-card__blocked-button ${isBlocked ? 'blocked-active' : ''}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          onToggleBlocked();
+        }}
+        aria-label={isBlocked ? 'Desbloquear Pokémon' : 'Bloquear Pokémon'}
+      >
+        {isBlocked ? '🔓' : '🔒'}
+      </button>
       <button
         type="button"
         className={`pokemon-card__favorite-button ${isFavorite ? 'favorite-active' : ''}`}

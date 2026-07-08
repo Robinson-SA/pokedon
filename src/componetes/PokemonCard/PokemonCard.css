@@ -1,8 +1,8 @@
 .pokemon-card {
   position: relative;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: var(--surface);
+  border-radius: 24px;
+  box-shadow: 0 16px 35px rgba(20, 33, 61, 0.12);
   overflow: hidden;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -15,12 +15,12 @@
   position: absolute;
   top: 14px;
   right: 14px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(102, 126, 234, 0.45);
-  background: rgba(255, 255, 255, 0.9);
-  color: #667eea;
+  border: 1px solid rgba(59, 130, 246, 0.45);
+  background: rgba(255, 255, 255, 0.98);
+  color: #1d4ed8;
   font-size: 18px;
   display: inline-flex;
   align-items: center;
@@ -34,12 +34,12 @@
   position: absolute;
   top: 14px;
   left: 14px;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-  border: 1px solid rgba(229, 62, 62, 0.45);
-  background: rgba(255, 255, 255, 0.9);
-  color: #e53e3e;
+  border: 1px solid rgba(239, 68, 68, 0.45);
+  background: rgba(255, 255, 255, 0.98);
+  color: #dc2626;
   font-size: 16px;
   display: inline-flex;
   align-items: center;
@@ -57,13 +57,13 @@
 
 .pokemon-card__favorite-button:hover {
   transform: scale(1.05);
-  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.2);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.24);
 }
 
 .pokemon-card__favorite-button.favorite-active {
-  background: #667eea;
+  background: #1d4ed8;
   color: white;
-  border-color: #4c6ef5;
+  border-color: #2563eb;
 }
 
 .pokemon-card:hover {
@@ -94,7 +94,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: #000;
   font-weight: 500;
 }
 
@@ -104,18 +104,19 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  color: #000;
 }
 
 .pokemon-card__name {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #333;
+  color: #000;
   text-transform: capitalize;
 }
 
 .pokemon-card__id {
   margin: 4px 0 0 0;
   font-size: 14px;
-  color: #999;
+  color: #000;
 }

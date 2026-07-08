@@ -242,15 +242,25 @@ function PokemonList() {
         ) : (
           <div className="pokemon-favorites-list">
             {favorites.map((name) => (
-              <button
+              <div
                 key={name}
-                type="button"
                 className="pokemon-favorites-item"
                 onClick={() => setSelectedPokemon(name)}
               >
                 <span>{name}</span>
-                <span className="pokemon-favorites-item__star">★</span>
-              </button>
+                <div className="pokemon-favorites-item-actions">
+                  <button
+                    type="button"
+                    className="pokemon-favorites-item__remove"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      toggleFavorite(name);
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
             ))}
           </div>
         )}

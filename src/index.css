@@ -1,13 +1,15 @@
 :root {
-  --primary: #667eea;
-  --primary-dark: #764ba2;
-  --text: #333;
-  --text-light: #666;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+  --primary: #14213d;
+  --primary-light: #1f4068;
+  --accent: #ef4444;
+  --accent-soft: #ff9aa2;
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #f4f8ff;
+  --text: #0f172a;
+  --text-muted: #475569;
+  --border: #cbd5e1;
+  --shadow: rgba(20, 33, 61, 0.12) 0 16px 40px -24px, rgba(20, 33, 61, 0.08) 0 8px 20px -10px;
 
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
@@ -15,9 +17,9 @@
 
   font: 16px var(--sans);
   letter-spacing: 0.3px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
-  background: var(--bg);
+  background: linear-gradient(180deg, #e2e8f0 0%, #f8fafc 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

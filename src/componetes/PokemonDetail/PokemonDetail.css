@@ -13,36 +13,36 @@
 }
 
 .modal-content {
-  background: white;
-  border-radius: 16px;
-  max-width: 600px;
+  background: var(--surface);
+  border-radius: 24px;
+  max-width: 640px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 24px 90px rgba(20, 33, 61, 0.24);
 }
 
 .modal__close {
   position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
+  top: 18px;
+  right: 18px;
+  width: 44px;
+  height: 44px;
   border: none;
-  background: #f0f0f0;
+  background: #eef2ff;
   border-radius: 50%;
   font-size: 28px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
   z-index: 10;
 }
 
 .modal__close:hover {
-  background: #e0e0e0;
+  background: #dbeafe;
 }
 
 .modal__loading,
@@ -78,7 +78,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+  background: #f3f6ff;
   border-radius: 12px;
   min-height: 300px;
   padding: 20px;
@@ -92,20 +92,21 @@
 }
 
 .pokemon-detail__no-image {
-  color: #999;
-  font-weight: 500;
+  color: #000;
+  font-weight: 600;
 }
 
 .pokemon-detail__info-section {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  color: #000;
 }
 
 .pokemon-detail__name {
   margin: 0;
   font-size: 32px;
-  color: #333;
+  color: #000;
   text-transform: capitalize;
 }
 
@@ -113,14 +114,14 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
+  padding: 18px;
+  background: #eef2ff;
+  border-radius: 16px;
 }
 
 .detail-item {
   font-size: 16px;
-  color: #555;
+  color: #000;
 }
 
 .pokemon-detail__types,
@@ -135,7 +136,7 @@
 .pokemon-detail__abilities strong,
 .pokemon-detail__stats strong {
   font-size: 14px;
-  color: #667eea;
+  color: #000;
   text-transform: uppercase;
 }
 
@@ -176,8 +177,8 @@
 
 .ability-badge {
   padding: 6px 12px;
-  background: #e8f0ff;
-  color: #667eea;
+  background: #dbeafe;
+  color: #1e3a8a;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
@@ -199,28 +200,28 @@
 
 .stat-name {
   font-size: 12px;
-  color: #666;
+  color: #333;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .stat-bar {
   height: 8px;
-  background: #e0e0e0;
+  background: #e2e8f0;
   border-radius: 4px;
   overflow: hidden;
 }
 
 .stat-bar__fill {
   height: 100%;
-  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(90deg, #1d4ed8 0%, #ef4444 100%);
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
 .stat-value {
   font-size: 12px;
-  color: #333;
+  color: #000;
   font-weight: 600;
 }
 

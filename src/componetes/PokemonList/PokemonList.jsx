@@ -81,6 +81,35 @@ function PokemonList() {
     }
   };
 
+  // Carga inicial: solicita páginas hasta alcanzar al menos `minCount` ítems
+  const loadInitialPokemon = async (minCount = 100) => {
+    try {
+      setLoading(true);
+      let localList = [];
+      let localOffset = 0;
+      let localHasMore = true;
+
+      while (localList.length < minCount && localHasMore) {
+        const data = await getPokemonList(limit, localOffset);
+        const pageItems = data.results || [];
+        localList = localOffset === 0 ? pageItems : [...localList, ...pageItems];
+        localHasMore = data.next !== null;
+        localOffset += limit;
+        if (!localHasMore) break;
+      }
+
+      setPokemonList(localList);
+      setDisplayedList(applySearchFilter(localList).filter((pokemon) => !isBlocked(pokemon.name)));
+      setHasMore(localHasMore);
+      setOffset(localOffset - limit >= 0 ? localOffset - limit : 0);
+      setError(null);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchTypeAndGenerationOptions = async () => {
     try {
       const [typesData, generationsData] = await Promise.all([getTypeList(), getGenerationList()]);
@@ -134,7 +163,7 @@ function PokemonList() {
 
   useEffect(() => {
     fetchTypeAndGenerationOptions();
-    fetchPokemonList(0);
+    loadInitialPokemon(100);
   }, []);
 
   useEffect(() => {
@@ -222,7 +251,7 @@ function PokemonList() {
 
         {isLoading && <div className="pokemon-list__loading">Cargando...</div>}
 
-        {!selectedType && !selectedGeneration && hasMore && !isLoading && (
+        {!selectedType && !selectedGeneration && hasMore && !isLoading && pokemonList.length >= 100 && (
           <button className="pokemon-list__load-more" onClick={handleLoadMore}>
             Cargar más
           </button>

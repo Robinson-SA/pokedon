@@ -27,6 +27,12 @@ function PokemonList() {
   const [offset, setOffset] = useState(0);
   const [hasMore, setHasMore] = useState(true);
 
+  const FAVORITES_KEY = 'pokedex_favorites';
+  const BLOCKED_KEY = 'pokedex_blocked';
+  const SEARCH_KEY = 'pokedex_searchTerm';
+  const TYPE_KEY = 'pokedex_selectedType';
+  const GENERATION_KEY = 'pokedex_selectedGeneration';
+
   const limit = 20;
 
   const normalizeList = (items) =>
@@ -162,6 +168,32 @@ function PokemonList() {
   };
 
   useEffect(() => {
+    const savedFavorites = window.localStorage.getItem(FAVORITES_KEY);
+    const savedBlocked = window.localStorage.getItem(BLOCKED_KEY);
+    const savedSearchTerm = window.localStorage.getItem(SEARCH_KEY);
+    const savedType = window.localStorage.getItem(TYPE_KEY);
+    const savedGeneration = window.localStorage.getItem(GENERATION_KEY);
+
+    if (savedFavorites) {
+      try {
+        setFavorites(JSON.parse(savedFavorites));
+      } catch (err) {b
+        console.warn('No se pudo parsear favoritos de localStorage:', err);
+      }
+    }
+
+    if (savedBlocked) {
+      try {
+        setBlocked(JSON.parse(savedBlocked));
+      } catch (err) {
+        console.warn('No se pudo parsear bloqueados de localStorage:', err);
+      }
+    }
+
+    if (savedSearchTerm) setSearchTerm(savedSearchTerm);
+    if (savedType) setSelectedType(savedType);
+    if (savedGeneration) setSelectedGeneration(savedGeneration);
+
     fetchTypeAndGenerationOptions();
     loadInitialPokemon(100);
   }, []);
@@ -173,6 +205,26 @@ function PokemonList() {
       setDisplayedList(applySearchFilter(pokemonList).filter((pokemon) => !isBlocked(pokemon.name)));
     }
   }, [searchTerm, selectedType, selectedGeneration, pokemonList, blocked]);
+
+  useEffect(() => {
+    window.localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+  }, [favorites]);
+
+  useEffect(() => {
+    window.localStorage.setItem(BLOCKED_KEY, JSON.stringify(blocked));
+  }, [blocked]);
+
+  useEffect(() => {
+    window.localStorage.setItem(SEARCH_KEY, searchTerm);
+  }, [searchTerm]);
+
+  useEffect(() => {
+    window.localStorage.setItem(TYPE_KEY, selectedType);
+  }, [selectedType]);
+
+  useEffect(() => {
+    window.localStorage.setItem(GENERATION_KEY, selectedGeneration);
+  }, [selectedGeneration]);
 
   const handleLoadMore = () => {
     const newOffset = offset + limit;
